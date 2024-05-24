@@ -2,6 +2,10 @@ use std::collections::HashMap;
 
 #[derive(Clone, Copy)]
 
+/*
+* Enum to represent the access right of the user to the sheet
+*/
+pub
 enum AccessRight {
     ReadOnly,
     Editable,

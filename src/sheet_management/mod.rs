@@ -19,7 +19,10 @@ impl SheetManager {
             next_id: Mutex::new(1),
         }
     }
-    
+
+    /*
+    * Create a new sheet with the given name and owner ID
+    */
     pub fn create_sheet(&mut self, owner_id: u32, sheet_name: &str) {
         let mut id_guard = self.next_id.lock().unwrap();
         let sheet = Sheet {
@@ -32,7 +35,10 @@ impl SheetManager {
         *id_guard += 1;
         self.sheets.push(sheet);
     }
-    
+
+    /*
+    * Get the sheet with the given ID
+    */
     fn get_sheet(&self, sheet_id: u32) -> Option<&Sheet> {
         self.sheets.iter().find(|sheet| sheet.id == sheet_id)
     }
@@ -40,7 +46,10 @@ impl SheetManager {
     fn get_sheet_mut(&mut self, sheet_id: u32) -> Option<&mut Sheet> {
         self.sheets.iter_mut().find(|sheet| sheet.id == sheet_id)
     }
-    
+
+    /*
+    * Get the ID of the sheet with the given name
+    */
     pub fn get_sheet_id(&self, sheet_name: &str) -> Option<u32> {
         if let Some(sheet) = self.sheets.iter().find(|sheet| sheet.sheet_name == sheet_name) {
             Some(sheet.id)
@@ -48,7 +57,10 @@ impl SheetManager {
             None
         }
     }
-    
+
+    /*
+    * Delete the sheet with the given ID
+    */
     pub fn delete_sheet(&mut self, sheet_id: u32) -> bool {
         if let Some(index) = self.sheets.iter().position(|sheet| sheet.id == sheet_id) {
             self.sheets.remove(index);
@@ -57,7 +69,10 @@ impl SheetManager {
             false
         }
     }
-    
+
+    /*
+    * Print the content of the sheet with the given ID
+     */
     pub fn print_sheet(&self, sheet_id: u32) {
         if let Some(sheet) = self.get_sheet(sheet_id) {
             // Print the sheet information
