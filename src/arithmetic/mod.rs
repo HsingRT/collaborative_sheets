@@ -1,3 +1,11 @@
+/*
+    Arithmetic expression evaluator
+    Given an arithmetic expression, evaluate it and return the result.
+    The expression can contain the following operators: +, -, *, /
+    The expression can contain parentheses to change the order of operations.
+    The expression can contain floating point numbers.
+    The expression can contain spaces between numbers and operators.
+*/
 pub fn evaluate_expression(expression: &str) -> Result<f64, String> {
     match expression {
         "" => Err("Empty expression".to_string()),

@@ -3,6 +3,10 @@ use crate::sheet_management::SheetManager;
 use crate::access_control::{AccessControlManager, AccessRight};
 use std::io;
 
+/*
+    Change the access right of the user to the sheet
+    If the user does not have permission to change the access right, return an error message
+*/
 pub fn change_access_right(
     user_manager: &UserManager,
     sheet_manager: &SheetManager,
@@ -42,6 +46,10 @@ pub fn change_access_right(
     }
 }
 
+/*
+    Collaborate with another user
+    If the user does not have permission to share the sheet, return an error message
+*/
 pub fn collaborate(
     user_manager: &UserManager,
     sheet_manager: &SheetManager,
@@ -79,7 +87,11 @@ pub fn collaborate(
     }
 }
 
-pub fn unshare_sheet(
+/*
+    Unshared a sheet with a user
+    If the user does not have permission to unshared the sheet, return an error message
+*/
+pub fn unshared_sheet(
     user_manager: &UserManager,
     sheet_manager: &SheetManager,
     access_control_manager: &mut AccessControlManager,

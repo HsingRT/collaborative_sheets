@@ -4,6 +4,10 @@ use crate::access_control::AccessControlManager;
 use crate::access_control::AccessRight;
 use std::io;
 
+/*
+    Create a sheet for the user
+    If the user does not exist, return an error message
+*/
 pub fn create_sheet(
     user_manager: &mut UserManager,
     sheet_manager: &mut SheetManager,
@@ -30,8 +34,10 @@ pub fn create_sheet(
     }
 }
 
-
-
+/*
+    Check the content of the sheet
+    If the user has read-only or editable access, they can view the content
+*/
 pub fn check_sheet(user_manager: &UserManager, sheet_manager: &SheetManager, access_control_manager: &AccessControlManager) {
     println!("Enter username and sheet name:");
     let mut input = String::new();
@@ -44,6 +50,10 @@ pub fn check_sheet(user_manager: &UserManager, sheet_manager: &SheetManager, acc
     let username = parts[0];
     let sheet_name = parts[1];
 
+    /*
+        Check if the user has read-only or editable access to the sheet
+        If the user has access, print the content of the sheet
+    */
     if let Some(user_id) = user_manager.get_user_id(username) {
         if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
             if access_control_manager.check_access_read_only(sheet_id, user_id) || access_control_manager.check_access_editable(sheet_id, user_id) {
@@ -59,6 +69,10 @@ pub fn check_sheet(user_manager: &UserManager, sheet_manager: &SheetManager, acc
     }
 }
 
+/*
+    Change the value of a cell in the sheet
+    If the user has editable access, they can modify the value
+*/
 pub fn change_sheet_value(user_manager: &UserManager, sheet_manager: &mut SheetManager, access_control_manager: &AccessControlManager) {
     println!("Enter username, sheet name, and cell coordinates with new value:");
     let mut input = String::new();
@@ -86,6 +100,10 @@ pub fn change_sheet_value(user_manager: &UserManager, sheet_manager: &mut SheetM
     };
     let value = parts[4..].join(" ");
 
+    /*
+        * Check if the user has editable access to the sheet
+        * If the user has access, change the value of the cell
+    */
     if let Some(user_id) = user_manager.get_user_id(username) {
         if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
             if access_control_manager.check_access_editable(sheet_id, user_id) {

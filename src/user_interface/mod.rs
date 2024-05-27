@@ -7,6 +7,7 @@ mod user_management;
 mod sheet_management;
 mod access_control;
 
+// Display the menu
 pub fn display_menu() {
     println!("---------------Menu---------------");
     println!("1. Create a user");
@@ -15,12 +16,13 @@ pub fn display_menu() {
     println!("4. Change a value in a sheet");
     println!("5. Change a sheet's access right");
     println!("6. Collaborate with another user");
-    println!("7. Unshare a sheet with a user");
+    println!("7. Unshared a sheet with a user");
     println!("----------------------------------");
     print!("> ");
     io::stdout().flush().unwrap();
 }
 
+// Handle the user input
 pub fn handle_input(
     user_manager: &mut UserManager,
     sheet_manager: &mut SheetManager,
@@ -30,6 +32,7 @@ pub fn handle_input(
     io::stdin().read_line(&mut input).unwrap();
     let choice = input.trim().parse::<u32>().unwrap_or(0);
 
+    // Handle the user's choice
     match choice {
         1 => user_management::create_user(user_manager),
         2 => sheet_management::create_sheet(user_manager, sheet_manager, access_control_manager),
@@ -37,7 +40,7 @@ pub fn handle_input(
         4 => sheet_management::change_sheet_value(user_manager, sheet_manager, access_control_manager),
         5 => access_control::change_access_right(user_manager, sheet_manager, access_control_manager),
         6 => access_control::collaborate(user_manager, sheet_manager, access_control_manager),
-        7 => access_control::unshare_sheet(user_manager, sheet_manager, access_control_manager),
+        7 => access_control::unshared_sheet(user_manager, sheet_manager, access_control_manager),
         _ => println!("Invalid option"),
     }
 }

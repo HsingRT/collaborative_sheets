@@ -1,5 +1,6 @@
 use std::sync::Mutex;
 
+// Define the Sheet struct
 pub struct Sheet {
     id: u32,
     owner_id: u32,
@@ -7,6 +8,7 @@ pub struct Sheet {
     pub content: Vec<Vec<f32>> // use (u32, u32) coordinates as the key to represent the cell
 }
 
+// Create a struct to manage the sheets
 pub struct SheetManager {
     sheets: Vec<Sheet>,
     next_id: Mutex<u32>,
@@ -20,6 +22,7 @@ impl SheetManager {
         }
     }
     
+    // Create a new sheet
     pub fn create_sheet(&mut self, owner_id: u32, sheet_name: &str) {
         let mut id_guard = self.next_id.lock().unwrap();
         let sheet = Sheet {
@@ -33,14 +36,17 @@ impl SheetManager {
         self.sheets.push(sheet);
     }
     
+    // Get the sheet by ID
     fn get_sheet(&self, sheet_id: u32) -> Option<&Sheet> {
         self.sheets.iter().find(|sheet| sheet.id == sheet_id)
     }
     
+    // Get the sheet by ID (mutable)
     pub fn get_sheet_mut(&mut self, sheet_id: u32) -> Option<&mut Sheet> {
         self.sheets.iter_mut().find(|sheet| sheet.id == sheet_id)
     }
     
+    // Get the sheet ID by name
     pub fn get_sheet_id(&self, sheet_name: &str) -> Option<u32> {
         if let Some(sheet) = self.sheets.iter().find(|sheet| sheet.sheet_name == sheet_name) {
             Some(sheet.id)
@@ -49,12 +55,11 @@ impl SheetManager {
         }
     }
     
+    // Print the content of the sheet
     pub fn print_sheet(&self, sheet_id: u32) {
         if let Some(sheet) = self.get_sheet(sheet_id) {
             // Print the sheet information
-            println!("Sheet ID: {}", sheet.id);
             println!("Sheet Name: {}", sheet.sheet_name);
-            println!("Owner ID: {}", sheet.owner_id);
             println!("Content:");
             
             // Print the content of the sheet
