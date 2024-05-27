@@ -41,7 +41,7 @@ pub fn check_sheet(user_manager: &UserManager, sheet_manager: &SheetManager) {
     }
     let username = parts[0];
     let sheet_name = parts[1];
-    if let Some(user_id) = user_manager.get_user_id(username) {
+    if let Some(_user_id) = user_manager.get_user_id(username) {
         if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
             sheet_manager.print_sheet(sheet_id);
         } else {
@@ -66,7 +66,7 @@ pub fn change_sheet_value(user_manager: &UserManager, sheet_manager: &mut SheetM
     let row = parts[2].parse::<usize>().unwrap_or(0);
     let col = parts[3].parse::<usize>().unwrap_or(0);
     let value = parts[4..].join(" ");
-    if let Some(user_id) = user_manager.get_user_id(username) {
+    if let Some(_user_id) = user_manager.get_user_id(username) {
         if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
             if let Some(sheet) = sheet_manager.get_sheet_mut(sheet_id) {
                 if row >= sheet.content.len() {

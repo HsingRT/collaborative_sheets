@@ -53,7 +53,7 @@ pub fn collaborate(
     let owner_username = parts[0];
     let sheet_name = parts[1];
     let collaborator_username = parts[2];
-    if let Some(owner_id) = user_manager.get_user_id(owner_username) {
+    if let Some(_owner_id) = user_manager.get_user_id(owner_username) {
         if let Some(collaborator_id) = user_manager.get_user_id(collaborator_username) {
             if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
                 access_control_manager.share_sheet(sheet_id, collaborator_id as u32, AccessRight::Editable);
@@ -85,7 +85,7 @@ pub fn unshare_sheet(
     let owner_username = parts[0];
     let sheet_name = parts[1];
     let collaborator_username = parts[2];
-    if let Some(owner_id) = user_manager.get_user_id(owner_username) {
+    if let Some(_owner_id) = user_manager.get_user_id(owner_username) {
         if let Some(collaborator_id) = user_manager.get_user_id(collaborator_username) {
             if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
                 access_control_manager.unshared_sheet(sheet_id, collaborator_id as u32);
