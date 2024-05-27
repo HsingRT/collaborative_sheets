@@ -33,8 +33,8 @@ pub fn handle_input(
     match choice {
         1 => user_management::create_user(user_manager),
         2 => sheet_management::create_sheet(user_manager, sheet_manager, access_control_manager),
-        3 => sheet_management::check_sheet(user_manager, sheet_manager),
-        4 => sheet_management::change_sheet_value(user_manager, sheet_manager),
+        3 => sheet_management::check_sheet(user_manager, sheet_manager,access_control_manager),
+        4 => sheet_management::change_sheet_value(user_manager, sheet_manager, access_control_manager),
         5 => access_control::change_access_right(user_manager, sheet_manager, access_control_manager),
         6 => access_control::collaborate(user_manager, sheet_manager, access_control_manager),
         7 => access_control::unshare_sheet(user_manager, sheet_manager, access_control_manager),

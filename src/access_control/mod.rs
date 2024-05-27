@@ -7,6 +7,16 @@ pub enum AccessRight {
     Editable,
 }
 
+impl PartialEq for AccessRight {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (AccessRight::ReadOnly, AccessRight::ReadOnly) => true,
+            (AccessRight::Editable, AccessRight::Editable) => true,
+            _ => false,
+        }
+    }
+}
+
 struct AccessControl {
     user_id: u32,
     access_right: AccessRight,
@@ -74,9 +84,17 @@ impl AccessControlManager {
     /* 
      * Check the access right of the user to the sheet
      */
-    pub fn check_access_right(&self, sheet_id: u32, user_id: u32) -> bool {
+    pub fn check_access_readOnly(&self, sheet_id: u32, user_id: u32) -> bool {
         if let Some(access_control) = self.get_access_right(sheet_id, user_id) {
-            access_control.user_id == user_id
+            access_control.user_id == user_id && access_control.access_right == AccessRight::ReadOnly
+        } else {
+            false
+        }
+    }
+
+    pub fn check_access_editable(&self, sheet_id: u32, user_id: u32) -> bool {
+        if let Some(access_control) = self.get_access_right(sheet_id, user_id) {
+            access_control.user_id == user_id && access_control.access_right == AccessRight::Editable
         } else {
             false
         }

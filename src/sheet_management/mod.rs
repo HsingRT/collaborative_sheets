@@ -26,7 +26,7 @@ impl SheetManager {
             id: *id_guard,
             owner_id,
             sheet_name: sheet_name.to_string(),
-            content: Vec::new(),
+            content: vec![vec![0.0; 3]; 3],
         };
         
         *id_guard += 1;
