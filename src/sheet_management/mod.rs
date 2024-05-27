@@ -1,10 +1,10 @@
 use std::sync::Mutex;
 
-struct Sheet {
+pub struct Sheet {
     id: u32,
     owner_id: u32,
     sheet_name: String,
-    content: Vec<Vec<f32>> // use (u32, u32) coordinates as the key to represent the cell
+    pub content: Vec<Vec<f32>> // use (u32, u32) coordinates as the key to represent the cell
 }
 
 pub struct SheetManager {
@@ -37,7 +37,7 @@ impl SheetManager {
         self.sheets.iter().find(|sheet| sheet.id == sheet_id)
     }
     
-    fn get_sheet_mut(&mut self, sheet_id: u32) -> Option<&mut Sheet> {
+    pub fn get_sheet_mut(&mut self, sheet_id: u32) -> Option<&mut Sheet> {
         self.sheets.iter_mut().find(|sheet| sheet.id == sheet_id)
     }
     

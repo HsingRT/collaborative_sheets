@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 #[derive(Clone, Copy)]
 
-enum AccessRight {
+pub enum AccessRight {
     ReadOnly,
     Editable,
 }
@@ -12,7 +12,7 @@ struct AccessControl {
     access_right: AccessRight,
 }
 
-struct AccessControlManager {
+pub struct AccessControlManager {
     access_controls: HashMap<u32, Vec<AccessControl>>, // use sheet_id as the key to represent the sheet's access control
 }
 
@@ -27,7 +27,7 @@ impl AccessControlManager {
      * Set the access right of the user to the sheet
      * If the sheet does not exist, create a new sheet and set the access right
      */
-    fn set_access_right(&mut self, sheet_id: u32, user_id: u32, access_right: AccessRight) {
+    pub fn set_access_right(&mut self, sheet_id: u32, user_id: u32, access_right: AccessRight) {
         let access_control = AccessControl {
             user_id,
             access_right,
