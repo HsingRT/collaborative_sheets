@@ -84,7 +84,7 @@ impl AccessControlManager {
     /* 
      * Check the access right of the user to the sheet
      */
-    pub fn check_access_readOnly(&self, sheet_id: u32, user_id: u32) -> bool {
+    pub fn check_access_read_only(&self, sheet_id: u32, user_id: u32) -> bool {
         if let Some(access_control) = self.get_access_right(sheet_id, user_id) {
             access_control.user_id == user_id && access_control.access_right == AccessRight::ReadOnly
         } else {

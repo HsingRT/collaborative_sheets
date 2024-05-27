@@ -49,15 +49,6 @@ impl SheetManager {
         }
     }
     
-    pub fn delete_sheet(&mut self, sheet_id: u32) -> bool {
-        if let Some(index) = self.sheets.iter().position(|sheet| sheet.id == sheet_id) {
-            self.sheets.remove(index);
-            true
-        } else {
-            false
-        }
-    }
-    
     pub fn print_sheet(&self, sheet_id: u32) {
         if let Some(sheet) = self.get_sheet(sheet_id) {
             // Print the sheet information

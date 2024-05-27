@@ -1,7 +1,7 @@
 use std::sync::Mutex;
 
 struct User {
-    id : i32,
+    id : u32,
     username : String,
 }
 
@@ -21,7 +21,7 @@ impl UserManager {
     pub fn create_user(&mut self, username: &str) {
         let mut id_guard = self.next_id.lock().unwrap();
         let user = User {
-            id: *id_guard as i32,
+            id: *id_guard,
             username: username.to_string(),
         };
 
@@ -37,17 +37,9 @@ impl UserManager {
         }
     }
     
-    fn get_user_mut(&mut self, username: &str) -> Option<&mut User> {
-        if let Some(user) = self.users.iter_mut().find(|user| user.username == username) {
-            Some(user)
-        } else {
-            None
-        }
-    }
-    
-    pub fn get_user_id(&self, username: &str) -> Option<i32> {
+    pub fn get_user_id(&self, username: &str) -> Option<u32> {
         if let Some(user) = self.get_user(username) {
-            Some(user.id)
+            Some(user.id as u32)
         } else {
             None
         }
