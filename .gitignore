@@ -1,0 +1,31 @@
+# Ignore target directory (compiled output)
+target/
+
+# Ignore Cargo.lock for libraries (keep for binaries)
+# Uncomment the line below if this is a library crate
+# Cargo.lock
+
+# Backup and temporary files
+**/*.rs.bk
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+
+# IDE-specific ignores
+# JetBrains IDEs (IntelliJ, CLion, etc.)
+.idea/
+*.iml
+
+# VSCode
+.vscode/
+
+# Byebug command history
+.byebug_history
+
+# MacOS
+.DS_Store
+
+# Node modules (in case frontend is included)
+node_modules/
