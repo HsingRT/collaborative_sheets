@@ -75,4 +75,11 @@ impl SheetManager {
         }
     }
     
+    pub fn is_owner(&self, user_id: u32, sheet_id: u32) -> bool {
+        self.sheets
+            .iter()
+            .find(|sheet| sheet.id == sheet_id)
+            .map_or(false, |sheet| sheet.owner_id == user_id)
+    }
+    
 }  
