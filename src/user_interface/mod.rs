@@ -7,6 +7,10 @@ mod user_management;
 mod sheet_management;
 mod access_control;
 
+pub enum DispatchResult {
+    Continue,
+    Exit,
+}
 
 // Display the menu
 pub fn display_menu() {
@@ -26,7 +30,6 @@ pub fn display_menu() {
     io::stdout().flush().unwrap();
 }
 
-// Handle the user input
 pub fn handle_input(
     user_manager: &mut UserManager,
     sheet_manager: &mut SheetManager,
@@ -34,25 +37,38 @@ pub fn handle_input(
 ) {
     let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
-    let choice = input.trim().parse::<u32>().unwrap_or(0);
+    let command = parse_command(&input);
+    let result = dispatch_command(command, user_manager, sheet_manager, access_control_manager);
+    if let DispatchResult::Exit = result {
+        println!("Exiting...");
+        std::process::exit(0);
+    }
+}
 
-    // Handle the user's choice
-    match choice {
+pub fn parse_command(input: &str) -> u32 {
+    input.trim().parse::<u32>().unwrap_or(0)
+}
+
+pub fn dispatch_command(
+    command: u32,
+    user_manager: &mut UserManager,
+    sheet_manager: &mut SheetManager,
+    access_control_manager: &mut AccessControlManager,
+) -> DispatchResult {
+    match command {
         1 => user_management::create_user(user_manager),
         2 => sheet_management::create_sheet(user_manager, sheet_manager, access_control_manager),
-        3 => sheet_management::check_sheet(user_manager, sheet_manager,access_control_manager),
+        3 => sheet_management::check_sheet(user_manager, sheet_manager, access_control_manager),
         4 => sheet_management::change_sheet_value(user_manager, sheet_manager, access_control_manager),
         5 => sheet_management::delete_sheet(user_manager, sheet_manager, access_control_manager),
         6 => access_control::change_access_right(user_manager, sheet_manager, access_control_manager),
         7 => access_control::collaborate(user_manager, sheet_manager, access_control_manager),
         8 => access_control::unshared_sheet(user_manager, sheet_manager, access_control_manager),
         9 => user_management::delete_user(user_manager),
-        10 => {
-            println!("Exiting...");
-            std::process::exit(0);
-        }
+        10 => return DispatchResult::Exit,
         _ => println!("Invalid option"),
     }
+    DispatchResult::Continue
 }
 
 #[cfg(test)]
