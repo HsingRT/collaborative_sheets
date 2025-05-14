@@ -1,4 +1,4 @@
-use collaborative_sheets::user_management::UserManager;
+use super::*;
 
 #[test]
 fn test_create_user_and_get_id() {
@@ -15,6 +15,29 @@ fn test_create_user_and_get_id() {
     assert!(bob_id.is_some());
     assert_ne!(alice_id, bob_id);
     assert!(not_found.is_none());
+}
+
+#[test]
+fn test_user_exists() {
+    let mut manager = UserManager::new();
+    assert!(!manager.user_exists("alice"));
+
+    manager.create_user("alice");
+    assert!(manager.user_exists("alice"));
+}
+
+#[test]
+fn test_delete_user() {
+    let mut manager = UserManager::new();
+    manager.create_user("alice");
+    assert!(manager.user_exists("alice"));
+
+    let deleted = manager.delete_user("alice");
+    assert!(deleted);
+    assert!(!manager.user_exists("alice"));
+
+    let deleted_again = manager.delete_user("alice");
+    assert!(!deleted_again);
 }
 
 #[test]

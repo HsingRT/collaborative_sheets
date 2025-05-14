@@ -44,4 +44,17 @@ impl UserManager {
             None
         }
     }
+
+    pub fn user_exists(&self, username: &str) -> bool {
+        self.get_user(username).is_some()
+    }
+
+    pub fn delete_user(&mut self, username: &str) -> bool {
+        if let Some(pos) = self.users.iter().position(|user| user.username == username) {
+            self.users.remove(pos);
+            true
+        } else {
+            false
+        }
+    }
 }

@@ -131,3 +131,36 @@ pub fn change_sheet_value(user_manager: &UserManager, sheet_manager: &mut SheetM
         println!("User not found.");
     }
 }
+
+pub fn delete_sheet(
+    user_manager: &UserManager,
+    sheet_manager: &mut SheetManager,
+    access_control_manager: &mut AccessControlManager,
+) {
+    println!("Enter username and sheet name:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).unwrap();
+    let parts: Vec<&str> = input.trim().split_whitespace().collect();
+    if parts.len() != 2 {
+        println!("Invalid input");
+        return;
+    }
+    let username = parts[0];
+    let sheet_name = parts[1];
+
+    if let Some(user_id) = user_manager.get_user_id(username) {
+        if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
+            if sheet_manager.is_owner(user_id, sheet_id) {
+                sheet_manager.delete_sheet(sheet_id);
+                access_control_manager.remove_sheet(sheet_id);
+                println!("Sheet \"{}\" has been deleted.", sheet_name);
+            } else {
+                println!("You don't have permission to delete this sheet. Only the owner can delete it.");
+            }
+        } else {
+            println!("Sheet not found.");
+        }
+    } else {
+        println!("User not found.");
+    }
+}

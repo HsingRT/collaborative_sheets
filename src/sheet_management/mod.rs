@@ -82,4 +82,15 @@ impl SheetManager {
             .map_or(false, |sheet| sheet.owner_id == user_id)
     }
     
-}  
+    // Delete a sheet
+    pub fn delete_sheet(&mut self, sheet_id: u32) {
+        if let Some(pos) = self.sheets.iter().position(|sheet| sheet.id == sheet_id) {
+            self.sheets.remove(pos);
+        } else {
+            println!("Sheet not found!");
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests;

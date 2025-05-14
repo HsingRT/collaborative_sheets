@@ -1,4 +1,4 @@
-use collaborative_sheets::arithmetic::evaluate_expression;
+use super::*;
 
 #[test]
 fn test_evaluate_expression() {

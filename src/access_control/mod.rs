@@ -98,4 +98,11 @@ impl AccessControlManager {
         }
     }
     
+    pub fn remove_sheet(&mut self, sheet_id: u32) {
+        self.access_controls.remove(&sheet_id);
+    }   
+    
 }
+
+#[cfg(test)]
+mod tests;

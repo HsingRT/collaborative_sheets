@@ -131,3 +131,5 @@ fn compute(tokens: Vec<String>) -> Result<f64, String> {
     }
 }
 
+#[cfg(test)]
+mod tests;
