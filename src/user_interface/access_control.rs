@@ -3,10 +3,6 @@ use crate::sheet_management::SheetManager;
 use crate::access_control::{AccessControlManager, AccessRight};
 use std::io;
 
-/*
-    Change the access right of the user to the sheet
-    If the user does not have permission to change the access right, return an error message
-*/
 pub fn change_access_right(
     user_manager: &UserManager,
     sheet_manager: &SheetManager,
@@ -15,6 +11,15 @@ pub fn change_access_right(
     println!("Enter username, sheet name, and new access right (ReadOnly(0)/Editable(1)):");
     let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
+    change_access_right_with_input(input.trim(), user_manager, sheet_manager, access_control_manager);
+}
+
+pub fn change_access_right_with_input(
+    input: &str,
+    user_manager: &UserManager,
+    sheet_manager: &SheetManager,
+    access_control_manager: &mut AccessControlManager,
+) {
     let parts: Vec<&str> = input.trim().split_whitespace().collect();
     if parts.len() != 3 {
         println!("Invalid input");
@@ -33,8 +38,8 @@ pub fn change_access_right(
 
     if let Some(user_id) = user_manager.get_user_id(username) {
         if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
-            if access_control_manager.check_access_editable(sheet_id, user_id as u32) {
-                access_control_manager.set_access_right(sheet_id, user_id as u32, access_right);
+            if access_control_manager.check_access_editable(sheet_id, user_id) {
+                access_control_manager.set_access_right(sheet_id, user_id, access_right);
             } else {
                 println!("You don't have permission to change access right for this sheet");
             }
@@ -46,10 +51,6 @@ pub fn change_access_right(
     }
 }
 
-/*
-    Collaborate with another user
-    If the user does not have permission to share the sheet, return an error message
-*/
 pub fn collaborate(
     user_manager: &UserManager,
     sheet_manager: &SheetManager,
@@ -58,6 +59,15 @@ pub fn collaborate(
     println!("Enter owner username, sheet name, and collaborator username:");
     let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
+    collaborate_with_input(input.trim(), user_manager, sheet_manager, access_control_manager);
+}
+
+pub fn collaborate_with_input(
+    input: &str,
+    user_manager: &UserManager,
+    sheet_manager: &SheetManager,
+    access_control_manager: &mut AccessControlManager,
+) {
     let parts: Vec<&str> = input.trim().split_whitespace().collect();
     if parts.len() != 3 {
         println!("Invalid input");
@@ -70,8 +80,8 @@ pub fn collaborate(
     if let Some(owner_id) = user_manager.get_user_id(owner_username) {
         if let Some(collaborator_id) = user_manager.get_user_id(collaborator_username) {
             if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
-                if access_control_manager.check_access_editable(sheet_id, owner_id as u32) {
-                    access_control_manager.share_sheet(sheet_id, collaborator_id as u32, AccessRight::Editable);
+                if access_control_manager.check_access_editable(sheet_id, owner_id) {
+                    access_control_manager.share_sheet(sheet_id, collaborator_id, AccessRight::Editable);
                     println!("Share \"{}\"'s \"{}\" with \"{}\".", owner_username, sheet_name, collaborator_username);
                 } else {
                     println!("You don't have permission to share this sheet");
@@ -87,10 +97,6 @@ pub fn collaborate(
     }
 }
 
-/*
-    Unshared a sheet with a user
-    If the user does not have permission to unshared the sheet, return an error message
-*/
 pub fn unshared_sheet(
     user_manager: &UserManager,
     sheet_manager: &SheetManager,
@@ -99,6 +105,15 @@ pub fn unshared_sheet(
     println!("Enter username, sheet name, and collaborator username to unshare:");
     let mut input = String::new();
     io::stdin().read_line(&mut input).unwrap();
+    unshared_sheet_with_input(input.trim(), user_manager, sheet_manager, access_control_manager);
+}
+
+pub fn unshared_sheet_with_input(
+    input: &str,
+    user_manager: &UserManager,
+    sheet_manager: &SheetManager,
+    access_control_manager: &mut AccessControlManager,
+) {
     let parts: Vec<&str> = input.trim().split_whitespace().collect();
     if parts.len() != 3 {
         println!("Invalid input");
@@ -111,8 +126,8 @@ pub fn unshared_sheet(
     if let Some(owner_id) = user_manager.get_user_id(owner_username) {
         if let Some(collaborator_id) = user_manager.get_user_id(collaborator_username) {
             if let Some(sheet_id) = sheet_manager.get_sheet_id(sheet_name) {
-                if access_control_manager.check_access_editable(sheet_id, owner_id as u32) {
-                    access_control_manager.unshared_sheet(sheet_id, collaborator_id as u32);
+                if access_control_manager.check_access_editable(sheet_id, owner_id) {
+                    access_control_manager.unshared_sheet(sheet_id, collaborator_id);
                     println!("Unshare \"{}\"'s \"{}\" with \"{}\".", owner_username, sheet_name, collaborator_username);
                 } else {
                     println!("You don't have permission to unshare this sheet");
